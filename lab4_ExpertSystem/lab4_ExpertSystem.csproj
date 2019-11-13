@@ -54,6 +54,7 @@
     <Compile Include="SystemVote.Designer.cs">
       <DependentUpon>SystemVote.cs</DependentUpon>
     </Compile>
+    <Compile Include="VoteHandler.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

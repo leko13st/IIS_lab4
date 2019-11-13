@@ -18,6 +18,7 @@ namespace lab4_ExpertSystem
         }
         int VoterCount { get; set; }
         int CandidateCount { get; set; }
+        VoteHandler vh = null;
 
         enum method { RelativeMajority, Kondorse_Bord}
         method CurrentMethod = method.RelativeMajority;
@@ -63,6 +64,11 @@ namespace lab4_ExpertSystem
         private void button1_Click(object sender, EventArgs e)
         {
             State(true);
+            vh = new VoteHandler();
+            if (CurrentMethod == method.RelativeMajority)
+                vh.CreateAlternative(CandidateCount, 0);
+            else 
+                vh.CreateAlternative(CandidateCount, 1);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -90,6 +96,11 @@ namespace lab4_ExpertSystem
         {
             CurrentMethod = method.Kondorse_Bord;
             Text = "SystemVote: [" + CurrentMethod.ToString() + "]";
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+           // vh.SendVote(i);
         }
     }
 }
