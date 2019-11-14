@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab4_ExpertSystem
@@ -15,12 +9,16 @@ namespace lab4_ExpertSystem
         public SystemVote()
         {
             InitializeComponent();
+            Text = "SystemVote: [" + CurrentMethod.ToString() + "]";
         }
         int VoterCount { get; set; }
         int CandidateCount { get; set; }
+        int PreferCount { get; set; }
+        int voter_num { get; set; }
+
         VoteHandler vh = null;
 
-        enum method { RelativeMajority, Kondorse_Bord}
+        enum method { RelativeMajority, Kondorse_Bord }
         method CurrentMethod = method.RelativeMajority;
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
@@ -67,15 +65,19 @@ namespace lab4_ExpertSystem
             vh = new VoteHandler();
             if (CurrentMethod == method.RelativeMajority)
                 vh.CreateAlternative(CandidateCount, 0);
-            else 
+            else
                 vh.CreateAlternative(CandidateCount, 1);
+
+            PrintPrefer(vh.GetListAlt());
+            label1.Text = 1 + " голосующий из " + VoterCount + " голосующих";
+            voter_num = 0;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             State(false);
         }
-        
+
         void State(bool Apply)
         {
             button2.Enabled = Apply;
@@ -100,7 +102,34 @@ namespace lab4_ExpertSystem
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-           // vh.SendVote(i);
+            if (voter_num != VoterCount)
+            {
+                label1.Text = (voter_num++ + 1) + " голосующий из " + VoterCount + " голосующих";
+                for (int j = 0; j < PreferCount; j++)
+                    if (isSelected(j))
+                        break;
+
+                bool isSelected(int index)
+                {
+                    if (dataGridView1[0, index].Selected)
+                    {
+                        vh.SendVote(index);
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+
+        bool PrintPrefer(List<string> list)
+        {
+            PreferCount = list.Count;
+            for (int i = 0; i < list.Count; i++)
+            {
+                dataGridView1.Rows.Add();
+                dataGridView1[1, i].Value = list[i];
+            }
+            return true;
         }
     }
 }

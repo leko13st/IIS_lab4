@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lab4_ExpertSystem
 {
-    class VoteHandler
+    public class VoteHandler
     {
         List<string> ListAlt { get; set; }
 
@@ -64,8 +64,8 @@ namespace lab4_ExpertSystem
                     if (cnt_list[index] == cnt)
                     {
                         if (index == 0) 
-                            return true; //need fixing!
-                        IncrementMethod(index - 1);
+                            return true;
+                        if (IncrementMethod(index - 1)) return true;
                         cnt_list[index] = 0;
                     }
                     s = s.Remove(index, 1).Insert(index, ALPHABET[cnt_list[index]].ToString());
@@ -90,6 +90,12 @@ namespace lab4_ExpertSystem
         public void SendVote(int alt)
         {
 
+        }
+
+        public bool v(int i)
+        {
+            if (i == 1) return true;
+            return false;
         }
     }
 }
