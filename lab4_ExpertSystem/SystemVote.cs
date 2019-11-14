@@ -85,13 +85,17 @@ namespace lab4_ExpertSystem
             textBox1.Enabled = !Apply;
             textBox2.Enabled = !Apply;
 
-            if (!Apply) dataGridView1.Rows.Clear();
+            if (!Apply)
+            {
+                dataGridView1.Rows.Clear();
+                textBox3.Text = null;
+            }
         }
 
         private void относительноеБольшинствоToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CurrentMethod = method.RelativeMajority;
-            Text = "SystemVote [" + CurrentMethod.ToString() + "]";
+            Text = "SystemVote: [" + CurrentMethod.ToString() + "]";
         }
 
         private void кондорсеБордToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,10 +108,16 @@ namespace lab4_ExpertSystem
         {
             if (voter_num != VoterCount)
             {
-                label1.Text = (voter_num++ + 1) + " голосующий из " + VoterCount + " голосующих";
+                label1.Text = (++voter_num + 1) + " голосующий из " + VoterCount + " голосующих";
                 for (int j = 0; j < PreferCount; j++)
                     if (isSelected(j))
                         break;
+
+                if (voter_num == VoterCount)
+                {
+                    label1.Text = "Все голосующие сделали выбор!";
+                    textBox3.Text += vh.Answer();
+                }
 
                 bool isSelected(int index)
                 {
@@ -126,7 +136,7 @@ namespace lab4_ExpertSystem
             PreferCount = list.Count;
             for (int i = 0; i < list.Count; i++)
             {
-                dataGridView1.Rows.Add();
+                dataGridView1.Rows.Add("Выбрать");
                 dataGridView1[1, i].Value = list[i];
             }
             return true;

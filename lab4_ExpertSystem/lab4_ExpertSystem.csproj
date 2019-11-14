@@ -46,8 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ALPHABET.cs" />
+    <Compile Include="IMethod.cs" />
+    <Compile Include="KondorseBordMethod.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelatMajorMethod.cs" />
     <Compile Include="SystemVote.cs">
       <SubType>Form</SubType>
     </Compile>
