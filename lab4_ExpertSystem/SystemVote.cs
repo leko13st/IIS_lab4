@@ -11,14 +11,14 @@ namespace lab4_ExpertSystem
             InitializeComponent();
             Text = "SystemVote: [" + CurrentMethod.ToString() + "]";
         }
-        int VoterCount { get; set; }
-        int CandidateCount { get; set; }
-        int PreferCount { get; set; }
-        int voter_num { get; set; }
+        int VoterCount { get; set; } //Кол-во голосующих
+        int CandidateCount { get; set; } //Кол-во кандидатов
+        int PreferCount { get; set; } //Кол-во предпочтений
+        int voter_num { get; set; } //Текущий голосующий
 
-        VoteHandler vh = null;
+        VoteHandler vh = null; //Класс-обработка
 
-        enum method { RelativeMajority, Kondorse_Bord }
+        enum method { RelativeMajority, Kondorse_Bord } //Список методов по решению задач
         method CurrentMethod = method.RelativeMajority;
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,28 +47,30 @@ namespace lab4_ExpertSystem
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (ValidVoterCount() && ValidCandidateCount())
+            if (ValidVoterCount() && ValidCandidateCount()) //Проверка на корректные значения в текстбоксах
                 button1.Enabled = true;
             else button1.Enabled = false;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (ValidVoterCount() && ValidCandidateCount())
+            if (ValidVoterCount() && ValidCandidateCount()) //Проверка на корректные значения в текстбоксах
                 button1.Enabled = true;
             else button1.Enabled = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //Кнопка принятия настроек
         {
             State(true);
             vh = new VoteHandler();
+
+            //создаём в классе-обработчике все возможные альтернативы
             if (CurrentMethod == method.RelativeMajority)
-                vh.CreateAlternative(CandidateCount, 0);
-            else
+                vh.CreateAlternative(CandidateCount, 0); 
+            else if (CurrentMethod == method.Kondorse_Bord)
                 vh.CreateAlternative(CandidateCount, 1);
 
-            PrintPrefer(vh.GetListAlt());
+            PrintPrefer(vh.GetListAlt()); //Выводим в datagridview1 все предпочтения
             label1.Text = 1 + " голосующий из " + VoterCount + " голосующих";
             voter_num = 0;
         }
@@ -104,7 +106,7 @@ namespace lab4_ExpertSystem
             Text = "SystemVote: [" + CurrentMethod.ToString() + "]";
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) //Выбор определённой альтернативы
         {
             if (voter_num != VoterCount)
             {
@@ -123,7 +125,7 @@ namespace lab4_ExpertSystem
                 {
                     if (dataGridView1[0, index].Selected)
                     {
-                        vh.SendVote(index);
+                        vh.SendVote(index); //Отправка в класс-обработчик выбранную альтернативу за определённого голосующего
                         return true;
                     }
                     return false;
@@ -131,7 +133,7 @@ namespace lab4_ExpertSystem
             }
         }
 
-        bool PrintPrefer(List<string> list)
+        bool PrintPrefer(List<string> list) //Выводим в datagridview1 все предпочтения
         {
             PreferCount = list.Count;
             for (int i = 0; i < list.Count; i++)

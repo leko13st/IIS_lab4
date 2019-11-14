@@ -8,7 +8,7 @@ namespace lab4_ExpertSystem
 {
     class RelatMajorMethod : IMethod
     {
-        string ALPHABET { get; set; }
+        string ALPHABET { get; set; } //Алфаваит, чтобы указать альтернативу
         public List<string> ListAlt { get; }
         public List<int> ListVote { get; }
 

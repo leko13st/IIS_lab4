@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace lab4_ExpertSystem
 {
     interface IMethod
     {
-        List<string> ListAlt { get; }
-        List<int> ListVote { get; }
-        bool EnumAllAlter(int i);
-        string PrintAnswer();
+        List<string> ListAlt { get; } //Список всех альтернатив
+        List<int> ListVote { get; } //Список всех голосов за определённую альтернативу
+        bool EnumAllAlter(int i); //Метод перечисления всех ВОЗМОЖНЫХ альтернатив
+        string PrintAnswer(); //Вывод ответа
     }
 }

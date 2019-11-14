@@ -34,7 +34,7 @@ namespace lab4_ExpertSystem
                 return false;
         }
 
-        public void SendVote(int alt)
+        public void SendVote(int alt) //Отправляем голос за определённую альтернативу
         {
             Method.ListVote[alt]++;
         }
