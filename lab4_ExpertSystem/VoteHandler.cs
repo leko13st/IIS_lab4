@@ -25,12 +25,13 @@ namespace lab4_ExpertSystem
             else if (idMethod == 1)
                 Method = new KondorseBordMethod();
 
-            for (int i = 0; i < candidateCount; i++)
-                Method.ListVote.Add(0);
-
             if (Method.EnumAllAlter(candidateCount))
+            {
+                for (int i = 0; i < Method.ListAlt.Count; i++)
+                    Method.ListVote.Add(0);
                 return true;
-            else 
+            }
+            else
                 return false;
         }
 

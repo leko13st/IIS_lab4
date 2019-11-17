@@ -77,7 +77,29 @@ namespace lab4_ExpertSystem
 
         public string PrintAnswer()
         {
-            return null;
+            string s = AnswerByKondorse() + AnswerByCopeland() + AnswerBySimpson();
+            return s;
+        }
+
+        string AnswerByKondorse()
+        {
+            string ans = null;
+
+            return ans;
+        }
+
+        string AnswerByCopeland()
+        {
+            string ans = null;
+
+            return ans;
+        }
+
+        string AnswerBySimpson()
+        {
+            string ans = null;
+
+            return ans;
         }
     }
 }
