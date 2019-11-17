@@ -12,17 +12,20 @@ namespace lab4_ExpertSystem
         public List<string> ListAlt { get; }
         public List<int> ListVote { get; }
 
-        public RelatMajorMethod()
+        private int CandidateCount;
+
+        public RelatMajorMethod(int candidateCount)
         {
             ALPHABET = Alphabet.value;
             ListVote = new List<int>();
             ListAlt = new List<string>();
+            CandidateCount = candidateCount;
         }
 
-        public bool EnumAllAlter(int candidateCount)
+        public bool EnumAllAlter()
         {
             ListAlt.Clear();
-            for (int i = 0; i < candidateCount; i++)
+            for (int i = 0; i < CandidateCount; i++)
             {
                 ListAlt.Add(ALPHABET[i].ToString());
             }

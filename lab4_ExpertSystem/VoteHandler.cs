@@ -21,11 +21,11 @@ namespace lab4_ExpertSystem
         public bool CreateAlternative(int candidateCount, int idMethod)
         {
             if (idMethod == 0)
-                Method = new RelatMajorMethod();
+                Method = new RelatMajorMethod(candidateCount);
             else if (idMethod == 1)
-                Method = new KondorseBordMethod();
+                Method = new KondorseBordMethod(candidateCount);
 
-            if (Method.EnumAllAlter(candidateCount))
+            if (Method.EnumAllAlter())
             {
                 for (int i = 0; i < Method.ListAlt.Count; i++)
                     Method.ListVote.Add(0);

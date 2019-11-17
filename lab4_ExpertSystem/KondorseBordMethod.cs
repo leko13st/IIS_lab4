@@ -8,24 +8,26 @@ namespace lab4_ExpertSystem
 {
     class KondorseBordMethod : IMethod
     {
-        string ALPHABET { get; set; } //Алфаваит, чтобы указать альтернативу
+        string ALPHABET { get; set; } //Алфавит, чтобы указать альтернативу
         public List<string> ListAlt { get; }
         public List<int> ListVote { get; }
 
-        public KondorseBordMethod()
+        private int CandidateCount;
+
+        public KondorseBordMethod(int candidateCount)
         {
             ALPHABET = Alphabet.value;
             ListVote = new List<int>();
             ListAlt = new List<string>();
+            CandidateCount = candidateCount;
         }
 
-        public bool EnumAllAlter(int candidateCount)
+        public bool EnumAllAlter()
         {
-            int cnt = candidateCount;
             string s = null;
             List<int> cnt_list = new List<int>();
 
-            for (int i = 0; i < candidateCount; i++)
+            for (int i = 0; i < CandidateCount; i++)
             {
                 s += ALPHABET[0];
                 cnt_list.Add(0);
@@ -36,20 +38,20 @@ namespace lab4_ExpertSystem
                 if (ValidValue(s))
                 {
                     string str = null;
-                    for (int i = 0; i < candidateCount; i++)
+                    for (int i = 0; i < CandidateCount; i++)
                         if (i != 0)
                             str += " > " + s[i];
                         else str += s[i];
                     ListAlt.Add(str);
                 }
 
-                if (IncrementMethod(cnt - 1))
+                if (IncrementMethod(CandidateCount - 1))
                     return true;
 
                 bool IncrementMethod(int index)
                 {
                     cnt_list[index]++;
-                    if (cnt_list[index] == cnt)
+                    if (cnt_list[index] == CandidateCount)
                     {
                         if (index == 0)
                             return true;
@@ -77,27 +79,106 @@ namespace lab4_ExpertSystem
 
         public string PrintAnswer()
         {
-            string s = AnswerByKondorse() + AnswerByCopeland() + AnswerBySimpson();
+            string s = AnswerByKondorse() + AnswerByCopeland() + AnswerBySimpson() + AnswerByBord();
             return s;
         }
 
         string AnswerByKondorse()
         {
-            string ans = null;
+            List<int> ListScore = new List<int>();
+            for (int i = 0; i < CandidateCount; i++)
+                ListScore.Add(0);
 
+            string ans = "[Метод Кондорсе]\r\n";
+            for (int i = 0; i < CandidateCount; i++)
+                for (int j = i + 1; j < CandidateCount; j++)
+                    ans += CompareAlter(i, j);
+
+            ans += "Ответ: " + Result() + "\r\n";
             return ans;
+
+            string CompareAlter(int X, int Y)
+            {
+                int CountVotes = ListVote.Sum();
+
+                int X_Votes = 0;
+                for (int i = 0; i < ListAlt.Count; i++)
+                {
+                    if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) > ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
+                        X_Votes += ListVote[i];
+                }
+
+                char symbol;
+                if (X_Votes > (CountVotes - X_Votes))
+                {
+                    symbol = '>';
+                    ListScore[X]++;
+                }
+                else if (X_Votes < (CountVotes - X_Votes))
+                {
+                    symbol = '<';
+                    ListScore[Y]++;
+                }
+                else
+                    symbol = '=';
+
+                string s = ALPHABET[X] + " " + symbol + " " + ALPHABET[Y] + " : " + X_Votes + " " + symbol + " " + (CountVotes - X_Votes) + "\r\n";
+                return s;
+            }
+
+            string Result()
+            {
+                List<int> list_temp = new List<int>();
+                for (int i = 0; i < ListScore.Count; i++)
+                {
+                    list_temp.Add(ListScore[i]);
+                }
+                list_temp.Sort();
+
+                for (int i = 0; i < list_temp.Count; i++)
+                    if (list_temp[i] > i)
+                        return "Парадокс Кондорсе!";
+                    else if (i != 0)
+                        if (list_temp[i] != list_temp[i - 1] && list_temp[i] != i)
+                            return "Парадокс Кондорсе!";
+
+                string s = null;
+                int cnt = ListScore.Count;
+                int max = ListScore.Max();
+                for (int i = 0; i < cnt; i++)
+                {
+                    if (i != 0) {
+                        if (max == ListScore.Max())
+                            s += " = ";
+                        else
+                            s += " > ";
+                    }
+                    s += ALPHABET[ListScore.IndexOf(ListScore.Max())];
+                    max = ListScore.Max();
+                    ListScore[ListScore.IndexOf(max)] = -1;
+                }
+
+                return s;
+            }
         }
 
         string AnswerByCopeland()
         {
-            string ans = null;
+            string ans = "[Метод Копленда]\r\n";
 
             return ans;
         }
 
         string AnswerBySimpson()
         {
-            string ans = null;
+            string ans = "[Метод Симпсона]\r\n";
+
+            return ans;
+        }
+
+        string AnswerByBord()
+        {
+            string ans = "[Метод Борда]\r\n";
 
             return ans;
         }

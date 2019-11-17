@@ -6,7 +6,7 @@ namespace lab4_ExpertSystem
     {
         List<string> ListAlt { get; } //Список всех альтернатив
         List<int> ListVote { get; } //Список всех голосов за определённую альтернативу
-        bool EnumAllAlter(int i); //Метод перечисления всех ВОЗМОЖНЫХ альтернатив
+        bool EnumAllAlter(); //Метод перечисления всех ВОЗМОЖНЫХ альтернатив
         string PrintAnswer(); //Вывод ответа
     }
 }
