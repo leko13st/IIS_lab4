@@ -104,7 +104,7 @@ namespace lab4_ExpertSystem
                 int X_Votes = 0;
                 for (int i = 0; i < ListAlt.Count; i++)
                 {
-                    if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) > ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
+                    if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) < ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
                         X_Votes += ListVote[i];
                 }
 
@@ -181,13 +181,18 @@ namespace lab4_ExpertSystem
 
             bool CompareAlter(int X, int Y)
             {
+                int sum = 0;
+                int CountVotes = ListVote.Sum();
+
                 for (int i = 0; i < ListAlt.Count; i++)
                 {
-                    if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) > ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
-                        ListScore[X] += ListVote[i];
-                    else if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) < ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
-                        ListScore[X] -= ListVote[i];
+                    if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) < ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
+                        sum += ListVote[i];
                 }
+                if (sum > (CountVotes - sum))
+                    ListScore[X]++;
+                else if (sum < (CountVotes - sum)) 
+                    ListScore[X]--;
                 return true;
             }
 
@@ -216,9 +221,7 @@ namespace lab4_ExpertSystem
 
         string AnswerBySimpson()
         {
-            string ans = "[Метод Симпсона]\r\n";
-
-            return ans;
+            
         }
 
         string AnswerByBord()
