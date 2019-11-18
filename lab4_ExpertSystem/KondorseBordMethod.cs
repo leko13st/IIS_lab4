@@ -164,9 +164,54 @@ namespace lab4_ExpertSystem
 
         string AnswerByCopeland()
         {
-            string ans = "[Метод Копленда]\r\n";
+            List<int> ListScore = new List<int>();
+            for (int i = 0; i < CandidateCount; i++)
+                ListScore.Add(0);
 
+            string ans = "[Метод Копленда]\r\n";
+            for (int i = 0; i < CandidateCount; i++)
+            {
+                for (int j = 0; j < CandidateCount; j++)
+                    if (i != j)
+                        CompareAlter(i, j);
+                ans += ALPHABET[i] + " = " + ListScore[i] + "\r\n";
+            }
+            ans += "Ответ: " + Answer() + "\r\n";
             return ans;
+
+            bool CompareAlter(int X, int Y)
+            {
+                for (int i = 0; i < ListAlt.Count; i++)
+                {
+                    if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) > ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
+                        ListScore[X] += ListVote[i];
+                    else if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) < ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
+                        ListScore[X] -= ListVote[i];
+                }
+                return true;
+            }
+
+            string Answer()
+            {
+                string s = null;
+                int cnt = ListScore.Count;
+                int max = ListScore.Max();
+                int min = ListScore.Min();
+                for (int i = 0; i < cnt; i++)
+                {
+                    if (i != 0)
+                    {
+                        if (max == ListScore.Max())
+                            s += " = ";
+                        else
+                            s += " > ";
+                    }
+                    s += ALPHABET[ListScore.IndexOf(ListScore.Max())];
+                    max = ListScore.Max();
+                    ListScore[ListScore.IndexOf(max)] = min - 1;
+                }
+                return s;
+            }
         }
 
         string AnswerBySimpson()
