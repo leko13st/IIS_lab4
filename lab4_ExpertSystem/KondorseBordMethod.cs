@@ -94,7 +94,7 @@ namespace lab4_ExpertSystem
                 for (int j = i + 1; j < CandidateCount; j++)
                     ans += CompareAlter(i, j);
 
-            ans += "Ответ: " + Result() + "\r\n";
+            ans += "Ответ: " + Result() + "\r\n\r\n";
             return ans;
 
             string CompareAlter(int X, int Y)
@@ -176,7 +176,7 @@ namespace lab4_ExpertSystem
                         CompareAlter(i, j);
                 ans += ALPHABET[i] + " = " + ListScore[i] + "\r\n";
             }
-            ans += "Ответ: " + Answer() + "\r\n";
+            ans += "Ответ: " + Answer() + "\r\n\r\n";
             return ans;
 
             bool CompareAlter(int X, int Y)
@@ -240,7 +240,7 @@ namespace lab4_ExpertSystem
                 ListScore[i] = list_tmp.Min();
                 ans += "Оценка по " + ALPHABET[i] + " = " + ListScore[i] + "\r\n";
             }
-            ans += "Ответ: " + Answer() + "\r\n";
+            ans += "Ответ: " + Answer() + "\r\n\r\n";
             return ans;
 
             bool ClearListTmp()
@@ -300,9 +300,69 @@ namespace lab4_ExpertSystem
 
         string AnswerByBord()
         {
-            string ans = "[Метод Борда]\r\n";
+            List<int> ListScore = new List<int>();
+            for (int i = 0; i < CandidateCount; i++)
+            {
+                ListScore.Add(0);
+            }
 
+            string ans = "[Метод Борда]\r\n";
+            for (int i = 0; i < CandidateCount; i++)
+            {
+                CompareAlter(i);
+                ans += ALPHABET[i] + " = " + ListScore[i] + "\r\n";
+            }
+            ans += "Ответ: " + Answer() + "\r\n";
             return ans;
+
+            bool CompareAlter(int X)
+            {
+                List<string> list_tmp = new List<string>();
+                for (int i = 0; i < ListAlt.Count; i++)
+                    list_tmp.Add(ListAlt[i]);
+
+                for (int i = 0; i < list_tmp.Count; i++)
+                {
+                    for (int j = 0; j < list_tmp[i].Length; j++)
+                        if (list_tmp[i][j] == ' ' || list_tmp[i][j] == '>')
+                        {
+                            list_tmp[i] = list_tmp[i].Remove(j--, 1);
+                        }
+
+                    string s = null;
+                    for (int c = list_tmp[i].Length - 1; c >= 0; c--)
+                        s += list_tmp[i][c];
+                    list_tmp[i] = s;
+
+                    ListScore[X] += ListVote[i] * list_tmp[i].IndexOf(ALPHABET[X].ToString());
+                }
+
+                //for (int i = 0; i < ListAlt.Count; i++)
+                //    ListScore[X] += ListVote[i] * list_tmp.IndexOf(ALPHABET[X].ToString());
+                return true;
+            }
+
+            string Answer()
+            {
+                string s = null;
+                int cnt = ListScore.Count;
+                int max = ListScore.Max();
+                for (int i = 0; i < cnt; i++)
+                {
+                    if (i != 0)
+                    {
+                        if (max == ListScore.Max())
+                            s += " = ";
+                        else
+                            s += " > ";
+                    }
+                    s += ALPHABET[ListScore.IndexOf(ListScore.Max())];
+                    max = ListScore.Max();
+                    ListScore[ListScore.IndexOf(max)] = -1;
+                }
+
+                return s;
+            }
         }
     }
 }
