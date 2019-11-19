@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace lab4_ExpertSystem
 {
     //Абстрактный класс по выводу ответа от каждого метода
-    abstract class Answer
+    public abstract class Answer
     {
         protected string ALPHABET { get; } //Алфавит, чтобы указать альтернативу
         public List<string> ListAlt { get; }

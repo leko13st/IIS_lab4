@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace lab4_ExpertSystem
 {
     //Класс по выводу ответа по методу Копленда
-    class AnswerByCopeland : Answer
+    public class AnswerByCopeland : Answer
     {
         public AnswerByCopeland(List<string> listAlt, List<int> listVote, int candidateCount) : base(ListAlt: listAlt, ListVote: listVote, CandidateCount: candidateCount)
         {
@@ -18,55 +18,59 @@ namespace lab4_ExpertSystem
 
         public override string GetAnswer()
         {
-            string ans = "[Метод Копленда]\r\n";
-            for (int i = 0; i < CandidateCount; i++)
+            try
             {
-                for (int j = 0; j < CandidateCount; j++)
-                    if (i != j)
-                        CompareAlter(i, j);
-                ans += ALPHABET[i] + " = " + ListScore[i] + "\r\n";
-            }
-            ans += "Ответ: " + Answer() + "\r\n\r\n";
-            return ans;
-
-            bool CompareAlter(int X, int Y)
-            {
-                int sum = 0;
-                int CountVotes = ListVote.Sum();
-
-                for (int i = 0; i < ListAlt.Count; i++)
+                string ans = "[Метод Копленда]\r\n";
+                for (int i = 0; i < CandidateCount; i++)
                 {
-                    if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) < ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
-                        sum += ListVote[i];
+                    for (int j = 0; j < CandidateCount; j++)
+                        if (i != j)
+                            CompareAlter(i, j);
+                    ans += ALPHABET[i] + " = " + ListScore[i] + "\r\n";
                 }
-                if (sum > (CountVotes - sum))
-                    ListScore[X]++;
-                else if (sum < (CountVotes - sum))
-                    ListScore[X]--;
-                return true;
-            }
+                ans += "Ответ: " + Answer() + "\r\n\r\n";
+                return ans;
 
-            string Answer()
-            {
-                string s = null;
-                int cnt = ListScore.Count;
-                int max = ListScore.Max();
-                int min = ListScore.Min();
-                for (int i = 0; i < cnt; i++)
+                bool CompareAlter(int X, int Y)
                 {
-                    if (i != 0)
+                    int sum = 0;
+                    int CountVotes = ListVote.Sum();
+
+                    for (int i = 0; i < ListAlt.Count; i++)
                     {
-                        if (max == ListScore.Max())
-                            s += " = ";
-                        else
-                            s += " > ";
+                        if (ListAlt[i].IndexOf(ALPHABET[X].ToString()) < ListAlt[i].IndexOf(ALPHABET[Y].ToString()))
+                            sum += ListVote[i];
                     }
-                    s += ALPHABET[ListScore.IndexOf(ListScore.Max())];
-                    max = ListScore.Max();
-                    ListScore[ListScore.IndexOf(max)] = min - 1;
+                    if (sum > (CountVotes - sum))
+                        ListScore[X]++;
+                    else if (sum < (CountVotes - sum))
+                        ListScore[X]--;
+                    return true;
                 }
-                return s;
+
+                string Answer()
+                {
+                    string s = null;
+                    int cnt = ListScore.Count;
+                    int max = ListScore.Max();
+                    int min = ListScore.Min();
+                    for (int i = 0; i < cnt; i++)
+                    {
+                        if (i != 0)
+                        {
+                            if (max == ListScore.Max())
+                                s += " = ";
+                            else
+                                s += " > ";
+                        }
+                        s += ALPHABET[ListScore.IndexOf(ListScore.Max())];
+                        max = ListScore.Max();
+                        ListScore[ListScore.IndexOf(max)] = min - 1;
+                    }
+                    return s;
+                }
             }
+            catch { return null; }
         }
     }
 }
