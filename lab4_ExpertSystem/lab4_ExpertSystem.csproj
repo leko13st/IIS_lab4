@@ -47,6 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ALPHABET.cs" />
+    <Compile Include="AnswerByBord.cs" />
+    <Compile Include="AnswerByCopeland.cs" />
+    <Compile Include="AnswerByKondorse.cs" />
+    <Compile Include="AnswerBySimpson.cs" />
+    <Compile Include="Answer.cs" />
     <Compile Include="IMethod.cs" />
     <Compile Include="KondorseBordMethod.cs" />
     <Compile Include="Program.cs" />
