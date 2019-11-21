@@ -9,6 +9,7 @@ namespace lab4_ExpertSystem
         public SystemVote()
         {
             InitializeComponent();
+            //comment for test1 commit
             Text = "SystemVote: [" + CurrentMethod.ToString() + "]";
         }
         int VoterCount { get; set; } //Кол-во голосующих
